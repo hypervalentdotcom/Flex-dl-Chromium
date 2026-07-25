@@ -22,7 +22,7 @@ This extension was built with Codex.
 
 - macOS: use the Git installation below (recommended, avoids Gatekeeper
   quarantine)
-- [macOS copy-paste commands](INSTALL-macOS.txt)
+- [macOS one-line installer and copy-paste commands](INSTALL-macOS.txt)
 - [FlexDL for macOS — ZIP fallback](downloads/FlexDL-macOS.zip)
 - [FlexDL for Windows](downloads/FlexDL-Windows.zip)
 

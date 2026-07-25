@@ -2,24 +2,31 @@ FlexDL — macOS copy-paste installation
 ========================================
 
 Requirements:
-- Node.js 22 or newer
-- Python 3
 - Homebrew
 - A Chromium-based browser
 
 
-1. INSTALL AND START FLEXDL
+1. ONE-LINE INSTALL OR UPDATE
+
+Open Terminal, copy the complete line below, paste it, and press Return. It
+installs Git, Node.js, Python, and FFmpeg; creates ~/Applications/FlexDL;
+downloads or updates FlexDL; and starts the local service:
+
+brew install git node python ffmpeg && FLEXDL_INSTALL_DIR="$HOME/Applications/FlexDL" && mkdir -p "$HOME/Applications" && if [ -d "$FLEXDL_INSTALL_DIR/.git" ]; then git -C "$FLEXDL_INSTALL_DIR" pull --ff-only; elif [ -e "$FLEXDL_INSTALL_DIR" ]; then echo "FlexDL cannot be installed because $FLEXDL_INSTALL_DIR already exists and is not a Git checkout." >&2; false; else git clone https://github.com/hypervalentdotcom/Flex-dl-Chromium.git "$FLEXDL_INSTALL_DIR"; fi && cd "$FLEXDL_INSTALL_DIR" && ./Start.command
+
+
+2. MANUAL INSTALLATION
 
 Open Terminal, copy the complete block below, paste it, and press Return:
 
-brew install ffmpeg
+brew install git node python ffmpeg
 mkdir -p "$HOME/Applications"
 git clone https://github.com/hypervalentdotcom/Flex-dl-Chromium.git "$HOME/Applications/FlexDL"
 cd "$HOME/Applications/FlexDL"
 ./Start.command
 
 
-2. LOAD THE EXTENSION
+3. LOAD THE EXTENSION
 
 Copy this address into the Chromium address bar:
 
@@ -30,7 +37,7 @@ Enable Developer mode, click "Load unpacked", then select:
 ~/Applications/FlexDL/extension
 
 
-3. COMMANDS FOR LATER
+4. COMMANDS FOR LATER
 
 Start FlexDL:
 
