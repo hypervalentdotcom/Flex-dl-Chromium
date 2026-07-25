@@ -1,0 +1,77 @@
+name: Windows integration
+
+on:
+  push:
+    branches:
+      - main
+      - windows
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows latest
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install ffmpeg
+        shell: pwsh
+        run: |
+          if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
+            choco install ffmpeg -y --no-progress
+          }
+          ffmpeg -version
+          ffprobe -version
+
+      - name: Install yt-dlp
+        run: npm run setup
+
+      - name: Check JavaScript syntax
+        run: npm run check
+
+      - name: Run tests
+        run: npm test
+
+      - name: Start with the Windows launcher
+        shell: cmd
+        run: Start.bat
+
+      - name: Verify the local service
+        shell: pwsh
+        run: |
+          $health = Invoke-RestMethod -Uri "http://127.0.0.1:43110/health"
+          if (-not $health.ready) {
+            throw "FlexDL reported that it is not ready."
+          }
+          if ($health.service -ne "FlexDL") {
+            throw "Unexpected local service identity: $($health.service)"
+          }
+          $health | ConvertTo-Json -Compress
+
+      - name: Check status with the Windows launcher
+        shell: cmd
+        run: Status.bat
+
+      - name: Stop with the Windows launcher
+        if: always()
+        shell: cmd
+        run: Stop.bat

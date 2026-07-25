@@ -10,6 +10,7 @@ if errorlevel 1 goto failed
 
 echo.
 echo The FlexDL service is stopped.
+if defined CI exit /b 0
 timeout /t 2 /nobreak >nul
 exit /b 0
 
@@ -19,5 +20,6 @@ echo Node.js 22 or newer is required and must be available on PATH.
 :failed
 echo.
 echo FlexDL could not stop cleanly. Press any key to close.
+if defined CI exit /b 1
 pause >nul
 exit /b 1

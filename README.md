@@ -16,7 +16,12 @@ This extension was built with Codex.
 - Node.js 22 or newer
 - Python 3
 - `ffmpeg`
-- A Chromium-based browser such as Chrome, Chromium, Brave, or Comet
+- A Chromium-based browser
+
+## Downloads
+
+- [FlexDL for macOS](downloads/FlexDL-macOS.zip)
+- [FlexDL for Windows](downloads/FlexDL-Windows.zip)
 
 ### macOS
 
@@ -59,7 +64,7 @@ This extension was built with Codex.
 
 ### Install the extension
 
-1. Open `chrome://extensions` (`comet://extensions` in Comet).
+1. Open the extensions page in your Chromium-based browser.
 2. Enable **Developer mode** in the top-right corner.
 3. Click **Load unpacked**.
 4. Select the `extension` folder containing `manifest.json`.
@@ -72,8 +77,8 @@ to download and convert media.
 
 Start the local service, open FlexDL, paste a supported link, choose **Video**
 or **MP3**, select a quality, and click **Download**. The service uses `yt-dlp`
-to retrieve the media and `ffmpeg` to merge or convert it. Chrome then saves the
-finished file directly to your configured Downloads folder.
+to retrieve the media and `ffmpeg` to merge or convert it. The browser then
+saves the finished file directly to your configured Downloads folder.
 
 Video files are checked before they are saved. When necessary, FlexDL converts
 them to QuickTime-compatible H.264/AAC MP4 files, avoiding the classic
@@ -99,7 +104,7 @@ different hard-coded parser for every website.
 - Multiple video and audio quality options
 - Support for links handled by `yt-dlp`, including major media platforms
 - Automatic H.264/AAC conversion for QuickTime compatibility
-- Direct saving to Chrome's configured Downloads folder
+- Direct saving to the browser's configured Downloads folder
 - Automatic filename cleanup and duplicate-name handling
 - Local processing on `127.0.0.1`
 - No remote API, accounts, analytics, or telemetry
@@ -141,8 +146,8 @@ uses the following local tools, whose respective licences and terms apply:
 - FFmpeg: <https://ffmpeg.org/>
 - Node.js: <https://nodejs.org/>
 
-Tech stack: Chrome Manifest V3, vanilla JavaScript, Chrome Downloads API,
-Chrome Storage API, Node.js, `yt-dlp`, `ffmpeg`, and `ffprobe`.
+Tech stack: Chromium Manifest V3, vanilla JavaScript, Downloads API, Storage
+API, Node.js, `yt-dlp`, `ffmpeg`, and `ffprobe`.
 
 ---
 
