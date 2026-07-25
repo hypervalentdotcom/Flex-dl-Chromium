@@ -88,19 +88,20 @@ not disable Gatekeeper globally.
 
 1. Download the ZIP file.
 2. Unzip it into a permanent folder.
-3. Install Node.js 22 or newer, Python 3, and `ffmpeg`.
-4. Make sure `node`, `npm`, `python`, and `ffmpeg` are available from
-   PowerShell.
-5. Open PowerShell in the unzipped project folder and run:
+3. Double-click `Install.bat`.
 
-   ```powershell
-   npm run setup
-   npm run service:start
-   ```
+   It uses Windows Package Manager (`winget`) to install any missing
+   dependencies: Node.js 22 or newer, Python 3, and FFmpeg. Windows may display
+   an administrator confirmation while installing Node.js. The script then
+   installs `yt-dlp`, starts FlexDL, and verifies the local service.
 
-   You can use `Start.bat` for future launches. `Stop.bat` stops the local
-   service, and `Status.bat` shows whether it is running. The equivalent
-   `npm run service:stop` and `npm run service:status` commands also work.
+   If `winget` is unavailable, install or update
+   [App Installer](https://aka.ms/getwinget) from the Microsoft Store and run
+   `Install.bat` again.
+
+You can use `Start.bat` for future launches. `Stop.bat` stops the local service,
+and `Status.bat` shows whether it is running. Run `Install.bat` again whenever
+you want to repair the dependencies or update `yt-dlp`.
 
 ### Install the extension
 
@@ -178,7 +179,7 @@ published to GitHub.
 Platform launchers are kept at the project root:
 
 - macOS: `Start.command`, `Stop.command`, and `Status.command`
-- Windows: `Start.bat`, `Stop.bat`, and `Status.bat`
+- Windows: `Install.bat`, `Start.bat`, `Stop.bat`, and `Status.bat`
 
 ## Third-party tools
 
