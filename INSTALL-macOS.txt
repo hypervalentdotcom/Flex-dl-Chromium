@@ -10,9 +10,10 @@ Requirements:
 
 Open Terminal, copy the complete line below, paste it, and press Return. It
 installs Node.js, Python, and FFmpeg; creates ~/Applications/FlexDL; downloads
-the files directly from this GitHub repository; and starts the local service:
+the minimal macOS package; and starts the local service. It does not download
+the tests, Windows launchers, GitHub workflows, or project archives:
 
-brew install node python ffmpeg && FLEXDL_INSTALL_DIR="$HOME/Applications/FlexDL" && FLEXDL_ARCHIVE="$(mktemp -t flexdl.XXXXXX)" && if [ -e "$FLEXDL_INSTALL_DIR" ] && [ ! -f "$FLEXDL_INSTALL_DIR/package.json" ]; then echo "FlexDL cannot use $FLEXDL_INSTALL_DIR because it already contains different files." >&2; false; else mkdir -p "$FLEXDL_INSTALL_DIR"; fi && if [ -x "$FLEXDL_INSTALL_DIR/Stop.command" ]; then "$FLEXDL_INSTALL_DIR/Stop.command"; fi && curl -fL https://github.com/hypervalentdotcom/Flex-dl-Chromium/archive/refs/heads/main.tar.gz -o "$FLEXDL_ARCHIVE" && tar -xzf "$FLEXDL_ARCHIVE" -C "$FLEXDL_INSTALL_DIR" --strip-components=1 && chmod +x "$FLEXDL_INSTALL_DIR"/*.command && cd "$FLEXDL_INSTALL_DIR" && ./Start.command
+brew install node python ffmpeg && FLEXDL_INSTALL_DIR="$HOME/Applications/FlexDL" && FLEXDL_TEMP_DIR="$(mktemp -d -t flexdl)" && FLEXDL_ARCHIVE="$FLEXDL_TEMP_DIR/FlexDL-macOS.zip" && if [ -e "$FLEXDL_INSTALL_DIR" ] && [ ! -f "$FLEXDL_INSTALL_DIR/package.json" ]; then echo "FlexDL cannot use $FLEXDL_INSTALL_DIR because it already contains different files." >&2; false; else mkdir -p "$FLEXDL_INSTALL_DIR"; fi && if [ -x "$FLEXDL_INSTALL_DIR/Stop.command" ]; then "$FLEXDL_INSTALL_DIR/Stop.command"; fi && curl -fL https://raw.githubusercontent.com/hypervalentdotcom/Flex-dl-Chromium/main/downloads/FlexDL-macOS.zip -o "$FLEXDL_ARCHIVE" && ditto -x -k "$FLEXDL_ARCHIVE" "$FLEXDL_INSTALL_DIR" && chmod +x "$FLEXDL_INSTALL_DIR"/*.command && cd "$FLEXDL_INSTALL_DIR" && ./Start.command
 
 
 2. ONE-LINE INSTALL OR UPDATE WITH GIT

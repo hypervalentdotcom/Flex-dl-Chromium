@@ -33,6 +33,8 @@ keeps macOS from adding download quarantine metadata to the launchers. For one
 command that creates the folder, downloads every required project file without
 Git, and starts FlexDL, open
 [INSTALL-macOS.txt](INSTALL-macOS.txt) and copy its first command.
+That command downloads only the minimal macOS package: no tests, Windows
+launchers, CI configuration, or development files.
 
 The Git method is:
 
