@@ -1,0 +1,83 @@
+FlexDL — macOS copy-paste installation
+========================================
+
+Requirements:
+- Homebrew
+- A Chromium-based browser
+
+
+1. ONE-LINE INSTALL OR UPDATE WITHOUT GIT
+
+Open Terminal, copy the complete line below, paste it, and press Return. It
+installs Node.js, Python, and FFmpeg; creates ~/Applications/FlexDL; downloads
+the files directly from this GitHub repository; and starts the local service:
+
+brew install node python ffmpeg && FLEXDL_INSTALL_DIR="$HOME/Applications/FlexDL" && FLEXDL_ARCHIVE="$(mktemp -t flexdl.XXXXXX)" && if [ -e "$FLEXDL_INSTALL_DIR" ] && [ ! -f "$FLEXDL_INSTALL_DIR/package.json" ]; then echo "FlexDL cannot use $FLEXDL_INSTALL_DIR because it already contains different files." >&2; false; else mkdir -p "$FLEXDL_INSTALL_DIR"; fi && if [ -x "$FLEXDL_INSTALL_DIR/Stop.command" ]; then "$FLEXDL_INSTALL_DIR/Stop.command"; fi && curl -fL https://github.com/hypervalentdotcom/Flex-dl-Chromium/archive/refs/heads/main.tar.gz -o "$FLEXDL_ARCHIVE" && tar -xzf "$FLEXDL_ARCHIVE" -C "$FLEXDL_INSTALL_DIR" --strip-components=1 && chmod +x "$FLEXDL_INSTALL_DIR"/*.command && cd "$FLEXDL_INSTALL_DIR" && ./Start.command
+
+
+2. ONE-LINE INSTALL OR UPDATE WITH GIT
+
+Use this version if you prefer Git:
+
+brew install git node python ffmpeg && FLEXDL_INSTALL_DIR="$HOME/Applications/FlexDL" && mkdir -p "$HOME/Applications" && if [ -d "$FLEXDL_INSTALL_DIR/.git" ]; then git -C "$FLEXDL_INSTALL_DIR" pull --ff-only; elif [ -e "$FLEXDL_INSTALL_DIR" ]; then echo "FlexDL cannot be installed because $FLEXDL_INSTALL_DIR already exists and is not a Git checkout." >&2; false; else git clone https://github.com/hypervalentdotcom/Flex-dl-Chromium.git "$FLEXDL_INSTALL_DIR"; fi && cd "$FLEXDL_INSTALL_DIR" && ./Start.command
+
+
+3. MANUAL GIT INSTALLATION
+
+Open Terminal, copy the complete block below, paste it, and press Return:
+
+brew install git node python ffmpeg
+mkdir -p "$HOME/Applications"
+git clone https://github.com/hypervalentdotcom/Flex-dl-Chromium.git "$HOME/Applications/FlexDL"
+cd "$HOME/Applications/FlexDL"
+./Start.command
+
+
+4. LOAD THE EXTENSION
+
+Copy this address into the Chromium address bar:
+
+chrome://extensions/
+
+Enable Developer mode, click "Load unpacked", then select:
+
+~/Applications/FlexDL/extension
+
+
+5. COMMANDS FOR LATER
+
+Start FlexDL:
+
+cd "$HOME/Applications/FlexDL"
+./Start.command
+
+Stop FlexDL:
+
+cd "$HOME/Applications/FlexDL"
+./Stop.command
+
+Check its status:
+
+cd "$HOME/Applications/FlexDL"
+./Status.command
+
+Update FlexDL and restart it:
+
+Without Git, run the one-line command in section 1 again.
+
+With Git:
+
+cd "$HOME/Applications/FlexDL"
+./Stop.command
+git pull --ff-only
+./Start.command
+
+
+ZIP FALLBACK
+
+The Git installation above is recommended because it avoids the quarantine
+metadata added to browser downloads. If you deliberately use the macOS ZIP,
+open Terminal in the extracted FlexDL folder and run:
+
+xattr -dr com.apple.quarantine .
+chmod +x ./*.command
