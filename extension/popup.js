@@ -1,3 +1,5 @@
+import { getActiveTabUrl, isHttpPageUrl } from "./current-tab.mjs";
+
 const qualityOptions = {
   video: [
     ["best", "Best available"],
@@ -100,11 +102,18 @@ function resetProgress() {
 }
 
 function isValidMediaUrl(value) {
+  return isHttpPageUrl(value);
+}
+
+async function fillFromActiveTab() {
+  if (elements.url.value.trim()) return;
   try {
-    const parsed = new URL(value);
-    return parsed.protocol === "https:" || parsed.protocol === "http:";
+    const url = await getActiveTabUrl(globalThis.chrome?.tabs);
+    if (!url || elements.url.value.trim()) return;
+    elements.url.value = url;
+    elements.clear.hidden = false;
   } catch {
-    return false;
+    // The popup remains usable with manual paste if the tab cannot be read.
   }
 }
 
@@ -237,6 +246,7 @@ if (globalThis.chrome?.storage?.onChanged) {
 }
 
 renderQualityOptions();
+fillFromActiveTab();
 checkHealth();
 sendMessage({ type: "getState" })
   .then((response) => applyJobState(response?.job))

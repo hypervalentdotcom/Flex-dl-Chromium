@@ -44,6 +44,19 @@ This extension was built with Codex.
    You can use `Start.command` for future launches. `Stop.command` stops the
    local service, and `Status.command` shows whether it is running.
 
+   If macOS says it cannot verify `Start.command`, the downloaded ZIP has been
+   marked with Gatekeeper quarantine metadata. Open Terminal in the extracted
+   FlexDL folder and run:
+
+   ```bash
+   xattr -dr com.apple.quarantine .
+   chmod +x ./*.command
+   ```
+
+   Only do this for a FlexDL package downloaded from this repository. The
+   command removes the download quarantine metadata from that extracted folder;
+   it does not disable Gatekeeper globally.
+
 ### Windows
 
 1. Download the ZIP file.
@@ -75,10 +88,12 @@ to download and convert media.
 
 ### How it works:
 
-Start the local service, open FlexDL, paste a supported link, choose **Video**
-or **MP3**, select a quality, and click **Download**. The service uses `yt-dlp`
-to retrieve the media and `ffmpeg` to merge or convert it. The browser then
-saves the finished file directly to your configured Downloads folder.
+Start the local service and open a supported media page. When you open FlexDL,
+the extension automatically fills the link field with the URL of the active
+tab. Choose **Video** or **MP3**, select a quality, and click **Download**. You
+can still paste a different link manually. The service uses `yt-dlp` to retrieve
+the media and `ffmpeg` to merge or convert it. The browser then saves the
+finished file directly to your configured Downloads folder.
 
 Video files are checked before they are saved. When necessary, FlexDL converts
 them to QuickTime-compatible H.264/AAC MP4 files, avoiding the classic
@@ -101,6 +116,7 @@ different hard-coded parser for every website.
 ### Features:
 
 - MP4 video and MP3 audio downloads
+- Automatic detection of the active tab URL
 - Multiple video and audio quality options
 - Support for links handled by `yt-dlp`, including major media platforms
 - Automatic H.264/AAC conversion for QuickTime compatibility
