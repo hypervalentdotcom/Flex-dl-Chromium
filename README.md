@@ -20,16 +20,21 @@ This extension was built with Codex.
 
 ## Downloads
 
-- macOS: use the Git installation below (recommended, avoids Gatekeeper
+- macOS: use a Terminal installation below (recommended, avoids Gatekeeper
   quarantine)
-- [macOS one-line installer and copy-paste commands](INSTALL-macOS.txt)
+- [macOS one-line installers without Git or with Git](INSTALL-macOS.txt)
 - [FlexDL for macOS — ZIP fallback](downloads/FlexDL-macOS.zip)
 - [FlexDL for Windows](downloads/FlexDL-Windows.zip)
 
 ### macOS
 
-The recommended installation uses Git instead of a browser download. This keeps
-macOS from adding download quarantine metadata to the launchers.
+The recommended installation uses Terminal instead of a browser download. This
+keeps macOS from adding download quarantine metadata to the launchers. For one
+command that creates the folder, downloads every required project file without
+Git, and starts FlexDL, open
+[INSTALL-macOS.txt](INSTALL-macOS.txt) and copy its first command.
+
+The Git method is:
 
 1. Install `ffmpeg` if it is not already available:
 
