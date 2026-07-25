@@ -3,3 +3,6 @@ service/.venv/
 qa/
 .DS_Store
 *.zip
+!downloads/
+!downloads/FlexDL-macOS.zip
+!downloads/FlexDL-Windows.zip

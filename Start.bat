@@ -22,6 +22,7 @@ if errorlevel 1 goto failed
 
 echo.
 echo The FlexDL service is ready. You can close this window.
+if defined CI exit /b 0
 timeout /t 2 /nobreak >nul
 exit /b 0
 
@@ -40,5 +41,6 @@ goto failed
 :failed
 echo.
 echo FlexDL could not start. Press any key to close.
+if defined CI exit /b 1
 pause >nul
 exit /b 1
