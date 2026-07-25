@@ -151,14 +151,16 @@ if (-not (Test-FFmpeg)) {
     throw "FFmpeg or ffprobe is still unavailable. Restart Windows, then run Install.bat again."
 }
 
+$nodeExecutable = (Get-Command node.exe -ErrorAction Stop).Path
+
 Write-Step "Installing or updating yt-dlp"
-& npm.cmd run setup
+& $nodeExecutable (Join-Path $PSScriptRoot "service\setup.mjs")
 if ($LASTEXITCODE -ne 0) {
     throw "yt-dlp installation failed with exit code $LASTEXITCODE."
 }
 
 Write-Step "Starting the FlexDL local service"
-& npm.cmd run service:start
+& $nodeExecutable (Join-Path $PSScriptRoot "service\control.mjs") "start"
 if ($LASTEXITCODE -ne 0) {
     throw "The FlexDL service failed to start with exit code $LASTEXITCODE."
 }
