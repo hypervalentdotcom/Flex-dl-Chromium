@@ -1,6 +1,6 @@
 {
   "name": "flex-dl",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -13,6 +13,6 @@
     "service:stop": "node service/control.mjs stop",
     "service:status": "node service/control.mjs status",
     "test": "node --test",
-    "check": "node --check extension/background.js && node --check extension/popup.js && node --check service/server.mjs && node --check service/media.mjs && node --check service/control.mjs"
+    "check": "node --check extension/background.js && node --check extension/popup.js && node --check extension/current-tab.mjs && node --check service/server.mjs && node --check service/media.mjs && node --check service/control.mjs"
   }
 }
