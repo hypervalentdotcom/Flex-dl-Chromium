@@ -20,42 +20,61 @@ This extension was built with Codex.
 
 ## Downloads
 
-- [FlexDL for macOS](downloads/FlexDL-macOS.zip)
+- macOS: use the Git installation below (recommended, avoids Gatekeeper
+  quarantine)
+- [FlexDL for macOS — ZIP fallback](downloads/FlexDL-macOS.zip)
 - [FlexDL for Windows](downloads/FlexDL-Windows.zip)
 
 ### macOS
 
-1. Download the ZIP file.
-2. Unzip it into a permanent folder. Moving or deleting it later will break the
-   extension.
-3. Install `ffmpeg` if it is not already available:
+The recommended installation uses Git instead of a browser download. This keeps
+macOS from adding download quarantine metadata to the launchers.
+
+1. Install `ffmpeg` if it is not already available:
 
    ```bash
    brew install ffmpeg
    ```
 
-4. Open Terminal in the unzipped project folder and run:
+2. Open Terminal and paste:
 
    ```bash
-   npm run setup
-   npm run service:start
+   mkdir -p "$HOME/Applications"
+   git clone https://github.com/hypervalentdotcom/Flex-dl-Chromium.git "$HOME/Applications/FlexDL"
+   cd "$HOME/Applications/FlexDL"
+   ./Start.command
    ```
 
-   You can use `Start.command` for future launches. `Stop.command` stops the
-   local service, and `Status.command` shows whether it is running.
+3. Load the extension from:
 
-   If macOS says it cannot verify `Start.command`, the downloaded ZIP has been
-   marked with Gatekeeper quarantine metadata. Open Terminal in the extracted
-   FlexDL folder and run:
-
-   ```bash
-   xattr -dr com.apple.quarantine .
-   chmod +x ./*.command
+   ```text
+   ~/Applications/FlexDL/extension
    ```
 
-   Only do this for a FlexDL package downloaded from this repository. The
-   command removes the download quarantine metadata from that extracted folder;
-   it does not disable Gatekeeper globally.
+You can double-click `Start.command` for future launches. `Stop.command` stops
+the local service, and `Status.command` shows whether it is running.
+
+To update FlexDL later:
+
+```bash
+cd "$HOME/Applications/FlexDL"
+git pull --ff-only
+./Start.command
+```
+
+#### ZIP fallback
+
+If you use the macOS ZIP instead, the browser may mark it with Gatekeeper
+quarantine metadata. Open Terminal in the extracted FlexDL folder and run:
+
+```bash
+xattr -dr com.apple.quarantine .
+chmod +x ./*.command
+```
+
+Only do this for a FlexDL package downloaded from this repository. The command
+removes the download quarantine metadata from that extracted folder; it does
+not disable Gatekeeper globally.
 
 ### Windows
 
