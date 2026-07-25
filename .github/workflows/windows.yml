@@ -42,8 +42,49 @@ jobs:
           ffmpeg -version
           ffprobe -version
 
-      - name: Install yt-dlp
-        run: npm run setup
+      - name: Verify and run the packaged Windows installer
+        shell: pwsh
+        run: |
+          $packageDir = Join-Path $env:RUNNER_TEMP "FlexDL-Windows"
+          Expand-Archive -LiteralPath "downloads/FlexDL-Windows.zip" -DestinationPath $packageDir
+
+          $requiredFiles = @(
+            "Install.bat",
+            "Install-Windows.ps1",
+            "Start.bat",
+            "Stop.bat",
+            "Status.bat",
+            "extension/manifest.json",
+            "service/server.mjs",
+            "package.json"
+          )
+          foreach ($relativePath in $requiredFiles) {
+            if (-not (Test-Path -LiteralPath (Join-Path $packageDir $relativePath))) {
+              throw "Missing Windows package file: $relativePath"
+            }
+          }
+
+          $forbiddenFiles = Get-ChildItem -LiteralPath $packageDir -Recurse -File |
+            Where-Object {
+              $_.Name -like "*.command" -or
+              $_.Name -eq "INSTALL-macOS.txt" -or
+              $_.FullName -match "[\\/]tests[\\/]" -or
+              $_.FullName -match "[\\/]\.github[\\/]"
+            }
+          if ($forbiddenFiles) {
+            throw "Unexpected non-Windows files: $($forbiddenFiles.FullName -join ', ')"
+          }
+
+          Push-Location $packageDir
+          try {
+            & cmd.exe /d /c Install.bat
+            if ($LASTEXITCODE -ne 0) {
+              throw "Install.bat failed with exit code $LASTEXITCODE"
+            }
+          }
+          finally {
+            Pop-Location
+          }
 
       - name: Check JavaScript syntax
         run: npm run check
