@@ -12,9 +12,10 @@ function Write-Step {
 }
 
 function Refresh-ProcessPath {
+    $currentPath = $env:Path
     $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
     $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
-    $pathParts = @($machinePath, $userPath)
+    $pathParts = @($machinePath, $userPath, $currentPath)
 
     $wingetLinks = Join-Path $env:LOCALAPPDATA "Microsoft\WinGet\Links"
     if (Test-Path -LiteralPath $wingetLinks) {
