@@ -30,21 +30,18 @@ function Refresh-ProcessPath {
     $env:Path = ($pathParts | Where-Object { $_ }) -join ";"
 }
 
-function Test-Node {
+function Get-NodeMajorVersion {
     try {
         $node = Get-Command node.exe -ErrorAction Stop
-        $rawVersion = (& $node.Source --version 2>$null | Select-Object -First 1)
-        if ($LASTEXITCODE -ne 0 -or -not $rawVersion) {
-            return $false
+        $rawVersion = (& $node.Path --version 2>$null | Out-String).Trim()
+        if ($rawVersion -match "^v([0-9]+)\.") {
+            return [int]$Matches[1]
         }
-        if ($rawVersion.Trim() -notmatch "^v(?<Major>\d+)\.") {
-            return $false
-        }
-        return [int]$Matches.Major -ge 22
     }
     catch {
-        return $false
+        # A missing or unusable executable is reported as version zero.
     }
+    return 0
 }
 
 function Test-Python3 {
@@ -119,7 +116,7 @@ function Install-WinGetPackage {
 }
 
 Refresh-ProcessPath
-$needsNode = -not (Test-Node)
+$needsNode = (Get-NodeMajorVersion) -lt 22
 $needsPython = -not (Test-Python3)
 $needsFFmpeg = -not (Test-FFmpeg)
 
@@ -139,7 +136,9 @@ if ($needsNode -or $needsPython -or $needsFFmpeg) {
 
 Refresh-ProcessPath
 
-if (-not (Test-Node)) {
+$nodeMajorVersion = Get-NodeMajorVersion
+Write-Host "Detected Node.js major version: $nodeMajorVersion"
+if ($nodeMajorVersion -lt 22) {
     throw "Node.js 22 or newer is still unavailable. Restart Windows, then run Install.bat again."
 }
 if (-not (Get-Command npm.cmd -ErrorAction SilentlyContinue)) {
